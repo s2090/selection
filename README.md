@@ -4,7 +4,7 @@ Data repository for stabilising selection meta-analysis.
 
 `data.xlsx` - Datasheet with information necessary to perform analyses
 
-`code.R` - R code for selection analyses using study data from `data/
+`code.R` - R code for selection analyses using study data from `data/`
 
 `meta-analysis.R` - R code for meta-analysis using result files in `results/` generated with `code.R
 
