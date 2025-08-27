@@ -1,0 +1,113 @@
+{\rtf1\ansi\ansicpg1252\cocoartf2580
+\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fswiss\fcharset0 Helvetica;\f1\froman\fcharset0 TimesNewRomanPS-BoldMT;}
+{\colortbl;\red255\green255\blue255;}
+{\*\expandedcolortbl;;}
+\margl1440\margr1440\vieww11620\viewh16640\viewkind0
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf0 Evolution - Datasets\
+\
+Article title: Chronic selection for early reproductive phenology in an annual plant across a steep, elevational gradient of growing season length
+\f1\b\fs28 \
+
+\f0\b0\fs24 \
+Authors: D.J. Ensing, D.M.D.H. Sora, & C.G. Eckert\
+Article acceptance date: 20 April 2021\
+\
+The following datasets are available for this article:\
+NaturalPlants.csv - naturally occurring plant data from all 13 study sites and 3 years\
+Transplants.csv - transplanted individual data from all nine transplant study sites and two years.\
+\
+		\
+###############################################################################\
+\
+# NaturalPlants.csv - naturally occurring plant data from all 13 study sites and 3 years\
+\
+Columns\
+year - year of study, ranges from 2014 - 2016\
+site_id - the site identifying code for each study site (See Note S1)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 GDD.yr - The length of the growing season, quantified as the annual accumulation\
+		of growing degree days (GDD)plot - the plot each plant was located in, facilitated field work\
+elevation - the elevation of each site in metres above sea level\
+plot - plot identifier within the site\
+plant_id - Unique individual plant identifier.\
+initial - Binary, whether an individual was measured at the initial visit or not.\
+firstdate - first date a plant was visited\
+lastdate - last date a plant was visited\
+max.trait - the maximum reproductive stage an individual achieved\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 gdd.to.emerg - growing degree days from the beginning of the year to third leaf\
+		node (our definition of emergence).\
+gdd.emerg.to.fl - growing degree days from third leaf node (emergence) to first\
+		flower.\
+gdd.to.fl - growing degree days from the beginning of the year to first flower\
+gdd.fl.to.mat - growing degree days from first flower to first mature fruit\
+gdd.to.mat - growing degree days from the beginning of the year to first mature\
+		fruit.\
+h.1fl - height at first flower\
+ln.1fl - count of leaf nodes at first flower\
+rep.1fl - count of reproductive structures at first flower\
+size.1fl - estimated individual size (See Note S1.3)\
+tot.seeds - estimated number of seeds produced\
+tbo.b4.fl - apical meristem removed before first flower?\
+tbo.b4.last.fl - apical meristem removed after first flower, but before last flower?\
+date.last.fl.obs - Julian date last flower observed\
+budseaten - were any buds eaten?\
+fleaten - were any flowers eaten?\
+freaten - were any fruits eaten?\
+\
+NOTE: NA means that trait was not measured for that individual. \
+\
+\
+###############################################################################\
+\
+# Transplants.csv - transplanted individual data from all nine transplant study sites and two years.\
+\
+Columns\
+year - year of study, ranges from 2014 - 2016\
+site_id - the site identifying code for each study site (See Note S1)\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 source.site_id - The site identifying code for the seed source.\
+GDD.yr - The length of the growing season, quantified as the annual accumulation\
+elevation - the elevation of each site in metres above sea level\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 block - the transplant block (1-10 in 2015, 11-25 in 2016)\
+grid - the planting grid within each block, labelled by source population in\
+		2015 (1L, 1M, 1H, 2L, 2M, 2H, 3L, 3M, 3H) and by letters A-I in 2016.\
+parent - the plant ID of the natural maternal plant for seeds planted in 2016\
+		only. RSC = Random seed collection and means that maternal plant was not\
+		monitored in 2015 because there were not enough seeds collected from \
+		monitored naturally occurring plants. RSC plants were located near the\
+		monitored plants in all cases.\
+plant_id - unique identifier for each planted individual, which is a \
+		concatenation of site_id, block, grid and grid position where the grid\
+		position identifies the plant as row-column. For instance plant \
+		T1-H-1-1H-1-1 is located at site T1-H, in block 1, the source population \
+		(grid) was T1-H (1H) and the grid position was 1-1. As another example, \
+		plant T1-H-10-3L-2-1 is located at T1-H, in block 10, in grid 3L (source\
+		== T3-L) in row 2, column 1. See Note S1 for more detail. \
+gdd.to.emerg - growing degree days from the beginning of the year to third leaf\
+		node (our definition of emergence).\
+gdd.emerg.to.fl - growing degree days from third leaf node (emergence) to first\
+		flower.\
+gdd.to.fl - growing degree days from the beginning of the year to first flower\
+gdd.fl.to.mat - growing degree days from first flower to first mature fruit\
+gdd.to.mat - growing degree days from the beginning of the year to first mature\
+		fruit.\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 h.1fl - height at first flower\
+ln.1fl - count of leaf nodes at first flower\
+rep.1fl - count of reproductive structures at first flower\
+size.1fl - estimated individual size (See Note S1.3)\
+tot.seeds - estimated number of seeds produced\
+tbo.b4.fl - apical meristem removed before first flower?\
+tbo.b4.last.fl - apical meristem removed after first flower, but before last flower?\
+date.last.fl.obs - Julian date last flower observed\
+budseaten - were any buds eaten?\
+fleaten - were any flowers eaten?\
+freaten - were any fruits eaten?\
+\pard\tx566\tx1133\tx1700\tx2267\tx2834\tx3401\tx3968\tx4535\tx5102\tx5669\tx6236\tx6803\pardirnatural\partightenfactor0
+\cf0 \
+NOTE: NA means that trait was not measured for that individual. \
+}

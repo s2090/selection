@@ -1,0 +1,25 @@
+Title:	  Data from: Floral scents of a deceptive plant are hyperdiverse and under population-specific phenotypic selection
+Authors:  GFRERER Eva, LAINA Danae, GIBERNAU Marc, FUCHS Roman, HAPP Martin, TOLASCH Till, TRUTSCHNIG Wolfgang, HÖRGER Anja C., COMES Hans Peter, and DÖTTERL Stefan
+for further information contact: eva.gfrerer[at]sbg.ac.at, stefan.doetterl[at]plus.ac.at or see original publication
+**************************************
+	
+*General*:	Data is organised as: Samples as rows, factors and scent compounds (VOCs) as columns.	
+		The first row gives scent compound names as used in the publication, the third row uses names suitable for reading into R.  Skip the first two lines when reading data into R.	
+		
+*Code identification*:
+ID		individual ID for each Arum maculatum plant individual	
+area		region in which samples where collected: either N (north of the Alps) or S (south of the Alps).	
+popul		population in which samples where collected: N: JOS (Austria), BUR, HOH, MUR, NEC (all Germany), RUM (Switzerland); S: DAO, LIM, MAH, MON, UDI (all Italy). For localities see original publication Gfrerer et al. 2021	
+year		samples were collected between 2017-2019	
+fruits		0/1 if fruits (infructescence) were found (1) or not found (0)	
+fRS_proport	fruit set in [%], calculated as: (number of fruits/number of all female flowers)*100	
+fRS_relative	relative fruit set as female fitness measurement for selection analyses, calculated only for JOS and DAO (two most extensively sampled populations) by: number of fruits per individual/ mean number of fruits in population	
+totalScent	total (sum) absolute emission of scent per inflorescence in [ng per inflorescence per 5 min]	
+totalCmpds	number of different individual scent compounds (VOCs) as detected and included in the analyses (occurs across all samples at least 3x) per individual	
+KRI		Kovàts' retention index	
+VOC		volatile organic compound	
+		
+*sheets*	
+Data_scent_analysis	Data are quantitative scent data in [ng per inflorescence per 5 min]. For relative data standardise by total per individual (row).	
+Data_JOS_selection	Reduced data set: includes only samples of population JOS and only scent compounds that occured at least in 50% of the samples as calculated by the simulation study. Data of individual VOCs are z-transformed (mean = 0, sd =1).	
+Data_DAO_selection	Reduced data set: includes only samples of population DAO and only scent compounds that occured at least in 50% of the samples as calculated by the simulation study. Data of individual VOCs are z-transformed (mean = 0, sd =1).	
