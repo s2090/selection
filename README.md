@@ -6,7 +6,7 @@ Data repository for stabilising selection meta-analysis.
 
 `code.R` - R code for selection analyses using study data from `data/`
 
-`meta-analysis.R` - R code for meta-analysis using result files in `results/` generated with `code.R
+`meta-analysis.R` - R code for meta-analysis using result files in `results/` generated with `code.R`
 
 #### `data/`
 
