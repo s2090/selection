@@ -162,11 +162,15 @@ samp_dist[[length(samp_dist)+1]] <- replicate(1000, {
 results <- merge(results, data.frame(factor = "Overall estimate", model = "Intercept-only model", estimate = mean(samp_dist[[length(samp_dist)]]), se = sd(samp_dist[[length(samp_dist)]]), quantile.l = quantile(samp_dist[[length(samp_dist)]], c(0.025,0.975))[[1]], quantile.u = quantile(samp_dist[[length(samp_dist)]], c(0.025,0.975))[[2]], samplesize = samples), all = TRUE, sort = FALSE)
 results$factor <- str_replace_all(results$factor, "no selection", "no quadratic selection")
 
+saveRDS(samp_dist, file="results/samp_dist.RDS")
+
 # p-values
+results$z.score <- vector(mode="numeric", length=length(results$estimate))
 results$p.value <- vector(mode="numeric", length=length(results$estimate))
 results$p.value.full <- vector(mode="numeric", length=length(results$estimate))
 for (i in 1:length(results$estimate)) {
-  results$p.value.full[i] <- pnorm((mean(samp_dist[[i]]) - 3)/sd(samp_dist[[i]]))
+  results$z.score[i] <- (mean(samp_dist[[i]]) - 3)/sd(samp_dist[[i]])
+  results$p.value.full[i] <- pnorm(results$z.score[i])
   if (results$p.value.full[i] < 0.00001) {
     results$p.value[i] <- "< 0.00001"
   } else {
@@ -174,7 +178,6 @@ for (i in 1:length(results$estimate)) {
   }
 }
 
-saveRDS(samp_dist, file="results/samp_dist.RDS")
 saveRDS(results, file="results/results.RDS")
 
 
