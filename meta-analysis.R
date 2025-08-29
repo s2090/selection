@@ -31,7 +31,6 @@ meta.quadratic <- readRDS("results/meta.quadratic.RDS")
 meta.random <- readRDS("results/meta.random.RDS")
 samp_dist <- readRDS("results/samp_dist.RDS")
 results <- readRDS("results/results.RDS")
-diff <- readRDS("results/diff.RDS")
 percentages <- readRDS("results/percentages.RDS")
 
 
@@ -56,21 +55,25 @@ plot(log(abs(data$quadratic)), log(1/data$variance), col=cols.quad, pch=16, xlab
 # model without intercept, traittype:quadratic.sel first
 meta.trait.quadratic <- rma.mv(yi=optimum, V=variance, mods= ~ 0 + traittype:quadratic.sel, random=list(~1|species, ~1|model, ~1|effect.id), data=data)
 summary(meta.trait.quadratic)
+predict(meta.trait.quadratic, newmods=rbind(c(1,0,0,0,0,0,0,0,0,0,0,0,0), c(0,1,0,0,0,0,0,0,0,0,0,0,0), c(0,0,1,0,0,0,0,0,0,0,0,0,0), c(0,0,0,1,0,0,0,0,0,0,0,0,0), c(0,0,0,0,1,0,0,0,0,0,0,0,0), c(0,0,0,0,0,1,0,0,0,0,0,0,0), c(0,0,0,0,0,0,1,0,0,0,0,0,0), c(0,0,0,0,0,0,0,1,0,0,0,0,0), c(0,0,0,0,0,0,0,0,1,0,0,0,0), c(0,0,0,0,0,0,0,0,0,1,0,0,0), c(0,0,0,0,0,0,0,0,0,0,1,0,0), c(0,0,0,0,0,0,0,0,0,0,0,1,0), c(0,0,0,0,0,0,0,0,0,0,0,0,1)))
 saveRDS(meta.trait.quadratic, file = "results/meta.trait.quadratic.RDS")
 
 # model without intercept, fitnesstype:quadratic.sel first
 meta.fitness.quadratic <- rma.mv(yi=optimum, V=variance, mods= ~ 0 + fitnesstype:quadratic.sel, random=list(~1|species, ~1|model, ~1|effect.id), data=data, control=list(rel.tol=1e-8))
 summary(meta.fitness.quadratic)
+predict(meta.fitness.quadratic, newmods=rbind(c(1,0,0,0,0,0,0,0,0), c(0,1,0,0,0,0,0,0,0), c(0,0,1,0,0,0,0,0,0), c(0,0,0,1,0,0,0,0,0), c(0,0,0,0,1,0,0,0,0), c(0,0,0,0,0,1,0,0,0), c(0,0,0,0,0,0,1,0,0), c(0,0,0,0,0,0,0,1,0), c(0,0,0,0,0,0,0,0,1)))
 saveRDS(meta.fitness.quadratic, file = "results/meta.fitness.quadratic.RDS")
 
 # model without intercept, quadratic.sel first
 meta.quadratic <- rma.mv(yi=optimum, V=variance, mods= ~ 0 + quadratic.sel, random=list(~1|species, ~1|model, ~1|effect.id), data=data)
 summary(meta.quadratic)
+predict(meta.quadratic, newmods=rbind(c(1,0,0), c(0,1,0), c(0,0,1)))
 saveRDS(meta.quadratic, file = "results/meta.quadratic.RDS")
 
-# random-effects model without moderators
+# intercept-only/random-effects model without moderators
 meta.random <- rma.mv(yi=optimum, V=variance, random=list(~1|species, ~1|model, ~1|effect.id), data=data)
 summary(meta.random)
+predict(meta.random)
 saveRDS(meta.random, file = "results/meta.random.RDS")
 
 
@@ -150,13 +153,13 @@ for (i in 1:3) {
   results <- merge(results, data.frame(factor = str_to_sentence(paste("quadratic selection - ", strsplit(estimates[i], "quadratic.sel")[[1]][2], sep="")), model = "Quadratic selection", estimate = mean(samp_dist[[samp_len+i]]), se = sd(samp_dist[[samp_len+i]]), quantile.l = quantile(samp_dist[[samp_len+i]], c(0.025,0.975))[[1]], quantile.u = quantile(samp_dist[[samp_len+i]], c(0.025,0.975))[[2]], samplesize = samples), all = TRUE, sort = FALSE)
 }
 
-# random-effects model
+# intercept-only/random-effects model
 samples <- nrow(data)
 samp_dist[[length(samp_dist)+1]] <- replicate(1000, {
   x <- rnorm(samples, meta.random$beta[1], sqrt(sum(meta.random$sigma2)))
   foldednorm.mean(mean(x), var(x))
 })
-results <- merge(results, data.frame(factor = "Overall estimate", model = "Random-effects model", estimate = mean(samp_dist[[length(samp_dist)]]), se = sd(samp_dist[[length(samp_dist)]]), quantile.l = quantile(samp_dist[[length(samp_dist)]], c(0.025,0.975))[[1]], quantile.u = quantile(samp_dist[[length(samp_dist)]], c(0.025,0.975))[[2]], samplesize = samples), all = TRUE, sort = FALSE)
+results <- merge(results, data.frame(factor = "Overall estimate", model = "Intercept-only model", estimate = mean(samp_dist[[length(samp_dist)]]), se = sd(samp_dist[[length(samp_dist)]]), quantile.l = quantile(samp_dist[[length(samp_dist)]], c(0.025,0.975))[[1]], quantile.u = quantile(samp_dist[[length(samp_dist)]], c(0.025,0.975))[[2]], samplesize = samples), all = TRUE, sort = FALSE)
 results$factor <- str_replace_all(results$factor, "no selection", "no quadratic selection")
 
 # p-values
@@ -173,7 +176,6 @@ for (i in 1:length(results$estimate)) {
 
 saveRDS(samp_dist, file="results/samp_dist.RDS")
 saveRDS(results, file="results/results.RDS")
-
 
 
 # forest plot
@@ -195,14 +197,6 @@ quadratic <- nrow(subset(data, quadratic.sig == 1, drop = TRUE))
 quadratic.negative <- nrow(subset(data, quadratic < 0 & quadratic.sig == 1, drop = TRUE))
 quadratic.positive <- nrow(subset(data, quadratic > 0 & quadratic.sig == 1, drop = TRUE))
 
-# testing difference between stabilising and disruptive selection frequency
-binom.test(stabilising, n = all, p = 0.5*(quadratic.optima/all), alternative = "two.sided")
-# testing difference between quadratic and directional selection frequency
-binom.test(quadratic.optima, n = all, p = 0.5*((quadratic.optima + directional)/all), alternative = "two.sided")
-# testing difference in results if not checking optima
-chisq.test(data.frame(c(stabilising, disruptive, all - quadratic.optima), c(quadratic.negative, quadratic.positive, all - quadratic)))
-chisq.test(data.frame(c(quadratic.optima, all - quadratic.optima), c(quadratic, all - quadratic)))
-
 # selection type percentages
 percentages <- data.frame(proportion = "stabilising selection", numerator = "stabilising selection", n1 = stabilising, denominator = "all estimates", n2 = all, percentage = stabilising/all * 100)
 percentages <- rbind(percentages, c("disruptive selection", "disruptive selection", disruptive, "all estimates", all, disruptive/all * 100))
@@ -210,14 +204,9 @@ percentages <- rbind(percentages, c("quadratic selection (with optimum in range)
 percentages <- rbind(percentages, c("directional selection", "directional selection", directional.positive + directional.negative, "all estimates", all, (directional.positive + directional.negative)/all * 100))
 percentages <- rbind(percentages, c("positive directional selection", "positive directional selection", directional.positive, "all estimates", all, directional.positive/all * 100))
 percentages <- rbind(percentages, c("negative directional selection", "negative directional selection", directional.negative, "all estimates", all, directional.negative/all * 100))
-percentages <- rbind(percentages, c("not in range", "not in range", notinrange, "all estimates", all, notinrange/all * 100))
 percentages <- rbind(percentages, c("negative quadratic selection", "negative quadratic selection", quadratic.negative, "all estimates", all, quadratic.negative/all * 100))
 percentages <- rbind(percentages, c("positive quadratic selection", "positive quadratic selection", quadratic.positive, "all estimates", all, quadratic.positive/all * 100))
 percentages <- rbind(percentages, c("quadratic selection", "significant quadratic selection", quadratic, "all estimates", all, quadratic/all * 100))
-percentages <- rbind(percentages, c("stabilising selection (of quadratic with optimum in range)", "stabilising selection", stabilising, "quadratic selection with optimum in range", quadratic.optima, stabilising/quadratic.optima * 100))
-percentages <- rbind(percentages, c("disruptive selection (of quadratic with optimum in range)", "disruptive selection", disruptive, "quadratic selection with optimum in range", quadratic.optima, disruptive/quadratic.optima * 100))
-percentages <- rbind(percentages, c("negative quadratic selection gradients (of quadratic)", "negative quadratic selection gradients", quadratic.negative, "quadratic selection", quadratic, quadratic.negative/quadratic * 100))
-percentages <- rbind(percentages, c("positive quadratic selection gradients (of quadratic)", "positive quadratic selection gradients", quadratic.positive, "quadratic selection", quadratic, quadratic.positive/quadratic * 100))
 percentages <- rbind(percentages, c("additional stabilising selection (-100%)", "negative quadratic selection", quadratic.negative, "stabilising selection", stabilising, (quadratic.negative/stabilising - 1) * 100))
 percentages <- rbind(percentages, c("additional disruptive selection (-100%)", "positive quadratic selection", quadratic.positive, "disruptive selection", disruptive, (quadratic.positive/disruptive - 1) * 100))
 percentages <- rbind(percentages, c("additional quadratic selection (-100%)", "quadratic selection", quadratic, "quadratic selection (with optimum in range)", quadratic.optima, (quadratic/quadratic.optima - 1) * 100))
